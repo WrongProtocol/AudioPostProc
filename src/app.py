@@ -1,7 +1,7 @@
 #!/usr/bin/env python 
 
 import os
-from fx import process_instrumental
+from fx import process_instrumental, process_vocals
 from utils import open_file, save_file
 
 # Main processing block to demonstrate the effects chain
@@ -20,8 +20,12 @@ if __name__ == "__main__":
     inst_audio = open_file(instrumental_file, samplerate)
     inst_processed = process_instrumental(inst_audio, samplerate)
 
-    save_file(inst_processed, samplerate, output_instrumental_file)
+    vocal_audio = open_file(vocal_file, samplerate)
+    vocal_processed = process_vocals(vocal_audio, samplerate) 
 
+    save_file(inst_processed, samplerate, output_instrumental_file)
+    save_file(vocal_processed, samplerate, output_vocal_file)
+       
     print("Audio processing complete! Processed files saved:")
-    # print(f"  Vocals: {output_vocal_file}")
+    print(f"  Vocals: {output_vocal_file}")
     print(f"  Instrumental: {output_instrumental_file}")
