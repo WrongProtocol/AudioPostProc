@@ -1,7 +1,7 @@
 from pedalboard import Pedalboard, Compressor, Distortion, HighShelfFilter, HighpassFilter, PeakFilter, Gain, Chorus, LadderFilter, Phaser, Convolution, Reverb, Delay, Limiter
 from pedalboard.io import AudioFile
 
-def process_instrumental(audio, samplerate):
+def process_instrumental(audio):
     fxchain = Pedalboard([
         Compressor(threshold_db=-1.0, 
                    ratio=1.5, 
@@ -31,10 +31,10 @@ def process_instrumental(audio, samplerate):
         Limiter(threshold_db=-0.1)
     ])
 
-    effected = fxchain(audio, samplerate)
+    effected = fxchain(audio)
     return effected
 
-def process_vocals(audio, samplerate):
+def process_vocals(audio):
     fxchain = Pedalboard([
         HighpassFilter(cutoff_frequency_hz = 100),
         PeakFilter(cutoff_frequency_hz = 271, 
@@ -66,5 +66,30 @@ def process_vocals(audio, samplerate):
         Limiter(threshold_db=-0.1)
     ])
 
-    effected = fxchain(audio, samplerate)
+    effected = fxchain(audio)
     return effected
+
+def sum_audio(audio1, audio2, audio1MixLevel=1, audio2MixLevel=1):
+
+    # Apply the mix multipliers a
+    audio1 = audio1 * audio1MixLevel
+    audio2 = audio2 * audio2MixLevel
+
+    # Sum the audio
+    min_length = min(len(audio1), len(audio2))
+    summed_audio = audio1[:min_length] + audio2[:min_length]
+
+    # Normalize the summed audio
+    max_summed_audio = max(abs(summed_audio))
+    summed_audio = summed_audio / max_summed_audio
+
+    return summed_audio
+
+def process_buss(audio):
+    fxchain = Pedalboard([
+        Limiter(threshold_db=-0.1)
+    ])
+
+    effected = fxchain(audio)
+    return effected
+
