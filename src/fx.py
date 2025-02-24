@@ -29,8 +29,8 @@ def process_instrumental(audio, samplerate):
                         gain_db = -4.3, 
                         q = 0.78),
         Distortion(drive_db=3),
-        Gain(gain_db=3.0),
-        Limiter(threshold_db=-0.1)
+        Gain(gain_db=1.0)
+        #Limiter(threshold_db=-0.1)
     ])
 
     effected = fxchain(audio, samplerate)
@@ -64,8 +64,8 @@ def process_vocals(audio, samplerate):
                width=1.0,
                freeze_mode=0.0),
         Distortion(drive_db=.2),
-        Gain(gain_db=3.0),
-        Limiter(threshold_db=-0.1)
+        Gain(gain_db=1.0)
+        #Limiter(threshold_db=-0.1)
     ])
 
     effected = fxchain(audio, samplerate)
@@ -75,7 +75,7 @@ def sum_audio(audio1, audio2):
     return sum_audio_arrays(audio1, audio2)
 
 def process_buss(audio, samplerate):
-    audio = buss_compressor(samplerate, audio, threshold_db=-20, ratio=4, attack_us=20000, release_ms=250, mix_percent=75)
+    audio = buss_compressor(samplerate, audio, threshold_db=-8.8, ratio=8, attack_us=20, release_ms=132, mix_percent=100)
 
     fxchain = Pedalboard([
         Limiter(threshold_db=-0.1)

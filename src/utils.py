@@ -6,6 +6,6 @@ def open_file(file_path, samplerate):
         audio = f.read(f.frames)
     return audio
 
-def save_file(audio, file_path, samplerate):
-    with AudioFile(samplerate, 'w', file_path, audio.shape[0]) as f:
+def save_file(audio, file_path, samplerate, channels=1):
+    with AudioFile(samplerate, 'w', file_path, channels) as f:
         f.write(audio)

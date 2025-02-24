@@ -6,7 +6,7 @@ import numpy as np
 
 def buss_compressor(samplerate, audio_array, threshold_db=-20, ratio=4, attack_us=20000, release_ms=250, mix_percent=100):
     """
-    Apply a 4:1 compression ratio using dynamic range compression.
+    Apply compression ratio using dynamic range compression.
 
     Parameters:
         samplerate (int): The sample rate of the audio.
