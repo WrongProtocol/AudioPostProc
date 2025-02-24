@@ -30,3 +30,8 @@ This project focuses on audio post-processing using the PedalBoard library and c
 - **src/dsp_scripts/stereo_upmix.py**: Implements the [`MonoToStereoUpmixer`](src/dsp_scripts/stereo_upmix.py) class for upmixing mono signals to stereo.
 - **src/dsp_scripts/sum_audio.py**: Provides the [`sum_audio_arrays`](src/dsp_scripts/sum_audio.py) function to sum (mix) two audio signals.
 
+### Docker
+The docker is just a basic environment to run code in (because I work on a windows box).   
+I usually mount my code folder to /app
+So then, I'd run this with python /app/src/python app.py
+
