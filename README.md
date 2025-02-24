@@ -33,5 +33,5 @@ This project focuses on audio post-processing using the PedalBoard library and c
 ### Docker
 The docker is just a basic environment to run code in (because I work on a windows box).   
 I usually mount my code folder to /app
-So then, I'd run this with python /app/src/python app.py
+So then, I'd run this with python /app/src/app.py
 
