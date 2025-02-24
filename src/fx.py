@@ -4,6 +4,7 @@ from pedalboard import Pedalboard, Compressor, Distortion, HighShelfFilter, High
 from pedalboard.io import AudioFile
 from buss_compressor import buss_compressor
 from sum_audio import sum_audio_arrays
+from stereo_upmix import MonoToStereoUpmixer
 
 def process_instrumental(audio, samplerate):
     fxchain = Pedalboard([
@@ -35,7 +36,8 @@ def process_instrumental(audio, samplerate):
         #Limiter(threshold_db=-0.1)
     ])
 
-    effected = fxchain(audio, samplerate)
+    chain_fxed = fxchain(audio, samplerate)
+    effected = stereo_upmix(chain_fxed, samplerate, 70)
     return effected
 
 def process_vocals(audio, samplerate):
@@ -70,8 +72,13 @@ def process_vocals(audio, samplerate):
         #Limiter(threshold_db=-0.1)
     ])
 
-    effected = fxchain(audio, samplerate)
+    chain_fxed = fxchain(audio, samplerate)
+    effected = stereo_upmix(chain_fxed, samplerate, 32)
     return effected
+
+def stereo_upmix(audio1, samplerate, delay_ms):
+    upmixer = MonoToStereoUpmixer(samplerate, delay_ms)
+    return upmixer.process_buffer(audio1)
 
 def sum_audio(audio1, audio2):
     return sum_audio_arrays(audio1, audio2)

@@ -46,9 +46,9 @@ if __name__ == "__main__":
     print(f"Buss output Audio dtype: {buss.dtype}, Shape: {buss.shape}, Size (MB): {buss.nbytes / 1e6:.2f}MB")
 
     print("Processed files saving:")
-    save_file(inst_processed, samplerate, output_instrumental_file)
+    save_file(inst_processed, samplerate, output_instrumental_file, channels=2)
     print(f"  Instrumental: {output_instrumental_file}")
-    save_file(vocal_processed, samplerate, output_vocal_file)
+    save_file(vocal_processed, samplerate, output_vocal_file, channels=2)
     print(f"  Vocals: {output_vocal_file}")
     save_file(summed_audios, samplerate, output_summed_file, channels=2)
     print(f"  Summed: {output_summed_file}")
