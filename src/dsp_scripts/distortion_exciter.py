@@ -1,7 +1,7 @@
 import numpy as np
 from scipy import signal
 
-def process_audio(audio, srate, drive=16.4, distortion=33, highpass=5000, wet_mix=-6, dry_mix=0):
+def distortion_exciter(audio, srate, drive=16.4, distortion=33, highpass=5000, wet_mix=-6, dry_mix=0):
     """
     Process a stereo audio signal by applying dynamic gain control combined with filtering,
     resulting in a mix of the original (dry) and processed (wet) signals. The effect is influenced

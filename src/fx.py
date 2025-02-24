@@ -2,9 +2,10 @@
 # Feb 23, 2025
 from pedalboard import Pedalboard, Compressor, Distortion, HighShelfFilter, HighpassFilter, PeakFilter, Gain, Chorus, LadderFilter, Phaser, Convolution, Reverb, Delay, Limiter
 from pedalboard.io import AudioFile
-from buss_compressor import buss_compressor
-from sum_audio import sum_audio_arrays
-from stereo_upmix import MonoToStereoUpmixer
+from dsp_scripts.buss_compressor import buss_compressor
+from dsp_scripts.sum_audio import sum_audio_arrays
+from dsp_scripts.stereo_upmix import MonoToStereoUpmixer
+from dsp_scripts.distortion_exciter import distortion_exciter
 
 def process_instrumental(audio, samplerate):
     fxchain = Pedalboard([
@@ -36,7 +37,8 @@ def process_instrumental(audio, samplerate):
         #Limiter(threshold_db=-0.1)
     ])
 
-    chain_fxed = fxchain(audio, samplerate)
+    dist_fxed = distort_exciter(audio, samplerate, drive=10, distortion=33, highpass=4800, wet_mix=-6, dry_mix=0)
+    chain_fxed = fxchain(dist_fxed, samplerate)
     effected = stereo_upmix(chain_fxed, samplerate, 70)
     return effected
 
@@ -67,11 +69,12 @@ def process_vocals(audio, samplerate):
                dry_level=1.0,
                width=1.0,
                freeze_mode=0.0),
-        Distortion(drive_db=.2),
+        #Distortion(drive_db=.2),
         Gain(gain_db=1.0)
         #Limiter(threshold_db=-0.1)
     ])
 
+    #dist_fxed = distort_exciter(audio, samplerate)
     chain_fxed = fxchain(audio, samplerate)
     effected = stereo_upmix(chain_fxed, samplerate, 32)
     return effected
@@ -79,6 +82,9 @@ def process_vocals(audio, samplerate):
 def stereo_upmix(audio1, samplerate, delay_ms):
     upmixer = MonoToStereoUpmixer(samplerate, delay_ms)
     return upmixer.process_buffer(audio1)
+
+def distort_exciter(audio, samplerate, drive=5.5, distortion=10, highpass=4800, wet_mix=-6, dry_mix=0):
+    return distortion_exciter(audio, samplerate, drive, distortion, highpass, wet_mix, dry_mix)
 
 def sum_audio(audio1, audio2):
     return sum_audio_arrays(audio1, audio2)
