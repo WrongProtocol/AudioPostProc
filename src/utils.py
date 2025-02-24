@@ -1,6 +1,5 @@
 from pedalboard.io import AudioFile
 
-
 def open_file(file_path, samplerate):
     with AudioFile(file_path).resampled_to(samplerate) as f:
         audio = f.read(f.frames)

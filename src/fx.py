@@ -1,3 +1,5 @@
+# Carmine Silano
+# Feb 23, 2025
 from pedalboard import Pedalboard, Compressor, Distortion, HighShelfFilter, HighpassFilter, PeakFilter, Gain, Chorus, LadderFilter, Phaser, Convolution, Reverb, Delay, Limiter
 from pedalboard.io import AudioFile
 from buss_compressor import buss_compressor
