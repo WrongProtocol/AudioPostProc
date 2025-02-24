@@ -24,5 +24,5 @@ CMD ["python", "app.py"]
 
 # to run it, do:
 #   docker build -t post-process-audio .
-#   docker run -d -it --gpus=all --name AudioPostProcess -v "C:\Users\Carmine Silano\OneDrive\Documents\Code\pedalboard_post\src:/app" post-process-audio /bin/bash
+#   docker run -d -it --gpus=all --name AudioPostProcess -v "c:\path\to\code:/app" post-process-audio /bin/bash
 #
