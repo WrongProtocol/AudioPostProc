@@ -1,2 +1,3 @@
 output/
 src/__pycache__/
+src/dsp_scripts/__pycache__/

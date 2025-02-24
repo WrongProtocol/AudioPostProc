@@ -1,29 +1,18 @@
-# Audio Post-Processing with Pedalboard and Custom Functions
+# Audio Post Processing using PedalBoard and Custom DSP Scripts
 
-This project provides a set of tools for audio post-processing using the Pedalboard library and some custom audio processing functions. 
-It includes various audio effects, dynamic range compression, and stereo upmixing. The project is designed to process instrumental and vocal audio files, sum them together, and apply a buss compressor to the final mix.
+## Overview
+This project focuses on audio post-processing using the PedalBoard library and custom Digital Signal Processing (DSP) scripts. The goal is to enhance and manipulate audio signals for various applications. This project was developed for post-processing low-quality generative music.
 
-## Project Structure
+## Features
+- **PedalBoard Integration**: Utilize the PedalBoard library to chain multiple audio effects.
+- **Custom DSP Scripts**: Implement custom DSP algorithms to process audio signals.
+- **Flexible Processing**: Easily switch between different effects and processing chains.
 
-```
-.gitignore
-Dockerfile
-input_files/
-    i.wav
-    v.wav
-output/
-    processed_buss.wav
-    processed_instrumental.wav
-    processed_vocal.wav
-    summed.wav
-src/
-    app.py
-    buss_compressor.py
-    fx.py
-    stereo_upmix.py
-    sum_audio.py
-    utils.py
-```
+## Requirements
+- Python 3.7+
+- PedalBoard library
+- NumPy
+- SciPy
 
 ## Files and Directories
 
@@ -34,55 +23,10 @@ src/
 ### Source Files
 
 - **src/app.py**: Main script that orchestrates the audio processing workflow.
-- **src/buss_compressor.py**: Contains the `buss_compressor` function that applies dynamic range compression using Numba for JIT acceleration.
 - **src/fx.py**: Defines various audio effects chains for processing instrumental and vocal audio.
-- **src/stereo_upmix.py**: Implements the `MonoToStereoUpmixer` class for upmixing mono signals to stereo.
-- **src/sum_audio.py**: Provides the `sum_audio_arrays` function to sum (mix) two audio signals.
 - **src/utils.py**: Utility functions for opening and saving audio files.
+- **src/dsp_scripts/buss_compressor.py**: Contains the [`buss_compressor`](src/dsp_scripts/buss_compressor.py) function that applies dynamic range compression using Numba for JIT acceleration.
+- **src/dsp_scripts/distortion_exciter.py**: Contains the [`distortion_exciter`](src/dsp_scripts/distortion_exciter.py) function for applying distortion and excitation effects.
+- **src/dsp_scripts/stereo_upmix.py**: Implements the [`MonoToStereoUpmixer`](src/dsp_scripts/stereo_upmix.py) class for upmixing mono signals to stereo.
+- **src/dsp_scripts/sum_audio.py**: Provides the [`sum_audio_arrays`](src/dsp_scripts/sum_audio.py) function to sum (mix) two audio signals.
 
-## Dependencies
-
-- Python 3.9
-- Numba
-- NumPy
-- SciPy
-- SoundFile
-- Librosa
-- Pedalboard
-
-## Usage
-
-1. Place your input audio files (`i.wav` and `v.wav`) in the input_files directory.
-2. Run the main script:
-
-```sh
-python src/app.py
-```
-
-3. Processed audio files will be saved in the output directory.
-
-## Functions and Classes
-
-### `buss_compressor` (in src/buss_compressor.py)
-
-Applies dynamic range compression to an audio signal using a buss compressor model.
-
-### `MonoToStereoUpmixer` (in src/stereo_upmix.py)
-
-Upmixes a mono signal to stereo using a delay and sum technique.
-
-### `sum_audio_arrays` (in src/sum_audio.py)
-
-Sums (mixes) two NumPy audio arrays together and returns the result.
-
-### `process_instrumental` and `process_vocals` (in src/fx.py)
-
-Defines the effects chains for processing instrumental and vocal audio.
-
-### `open_file` and `save_file` (in src/utils.py)
-
-Utility functions for opening and saving audio files.
-
-## Author
-
-WrongProtocol

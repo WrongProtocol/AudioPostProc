@@ -1,3 +1,10 @@
+# Carmine Silano
+# Feb 24, 2025
+# Implement a distortion exciter effect that applies dynamic gain control combined with filtering.
+# The effect is applied to a stereo audio signal and returns the processed audio.
+# The technique is based on the work of Michael Gruhn.
+# Rewritten to use Numba for JIT acceleration which made a HUGE difference in speed.
+
 import numpy as np
 from numba import njit
 
