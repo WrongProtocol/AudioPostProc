@@ -27,7 +27,6 @@ vocal_processed = process_vocals(vocal_audio, samplerate)
 summed_audios = sum_audio(inst_processed, vocal_processed)
 
 print("Original summed_audios shape:", summed_audios.shape)
-
 #reshape data
 summed_audios = np.squeeze(summed_audios)  # Remove dimensions of size 1
 print("After squeeze:", summed_audios.shape)

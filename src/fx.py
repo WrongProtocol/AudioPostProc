@@ -32,12 +32,12 @@ def process_instrumental(audio, samplerate):
         HighShelfFilter(cutoff_frequency_hz = 11000, 
                         gain_db = -4.3, 
                         q = 0.78),
-        Distortion(drive_db=3),
-        Gain(gain_db=1.0)
+        #Distortion(drive_db=3),
+        Gain(gain_db=2.0)
         #Limiter(threshold_db=-0.1)
     ])
 
-    dist_fxed = distort_exciter(audio, samplerate, drive=10, distortion=33, highpass=4800, wet_mix=-6, dry_mix=0)
+    dist_fxed = distort_exciter(audio, samplerate, drive=16, distortion=33, highpass=4800, wet_mix=-6, dry_mix=0)
     chain_fxed = fxchain(dist_fxed, samplerate)
     effected = stereo_upmix(chain_fxed, samplerate, 70)
     return effected
@@ -70,7 +70,7 @@ def process_vocals(audio, samplerate):
                width=1.0,
                freeze_mode=0.0),
         #Distortion(drive_db=.2),
-        Gain(gain_db=1.0)
+        #Gain(gain_db=1.0)
         #Limiter(threshold_db=-0.1)
     ])
 
@@ -90,9 +90,16 @@ def sum_audio(audio1, audio2):
     return sum_audio_arrays(audio1, audio2)
 
 def process_buss(audio, samplerate):
-    audio = buss_compressor(samplerate, audio, threshold_db=-8.8, ratio=8, attack_us=20, release_ms=132, mix_percent=100)
+    
+    audio = buss_compressor(samplerate, audio, threshold_db=-4.8, ratio=8, attack_us=20, release_ms=132, mix_percent=100)
 
     fxchain = Pedalboard([
+        Reverb(room_size=0.5,
+               damping=0.5,
+               wet_level=0.1,
+               dry_level=1.0,
+               width=1.0,
+               freeze_mode=0.0),
         Limiter(threshold_db=-0.1)
     ])
 
