@@ -6,6 +6,7 @@ from dsp_scripts.buss_compressor import buss_compressor
 from dsp_scripts.sum_audio import sum_audio_arrays
 from dsp_scripts.stereo_upmix import MonoToStereoUpmixer
 from dsp_scripts.distortion_exciter import distortion_exciter
+from dsp_scripts.saturator import dynamic_saturator
 
 def process_instrumental(audio, samplerate):
     fxchain = Pedalboard([
@@ -33,13 +34,14 @@ def process_instrumental(audio, samplerate):
                         gain_db = -4.3, 
                         q = 0.78),
         #Distortion(drive_db=3),
-        Gain(gain_db=2.0)
+        Gain(gain_db=3.0)
         #Limiter(threshold_db=-0.1)
     ])
 
     dist_fxed = distort_exciter(audio, samplerate, drive=16, distortion=33, highpass=4800, wet_mix=-6, dry_mix=0)
     chain_fxed = fxchain(dist_fxed, samplerate)
-    effected = stereo_upmix(chain_fxed, samplerate, 70)
+    stereod = stereo_upmix(chain_fxed, samplerate, 70)
+    effected = saturate(stereod, mix_pct=99)
     return effected
 
 def process_vocals(audio, samplerate):
@@ -89,11 +91,14 @@ def distort_exciter(audio, samplerate, drive=5.5, distortion=10, highpass=4800, 
 def sum_audio(audio1, audio2):
     return sum_audio_arrays(audio1, audio2)
 
+def saturate(audio, mix_pct=100):
+    return dynamic_saturator(audio, mix_pct)
+
 def process_buss(audio, samplerate):
-    
-    audio = buss_compressor(samplerate, audio, threshold_db=-4.8, ratio=8, attack_us=20, release_ms=132, mix_percent=100)
+    audio = buss_compressor(samplerate, audio, threshold_db=-3.8, ratio=8, attack_us=20, release_ms=132, mix_percent=100)
 
     fxchain = Pedalboard([
+        Gain(gain_db=-1.5),
         Reverb(room_size=0.5,
                damping=0.5,
                wet_level=0.1,
