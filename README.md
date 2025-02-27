@@ -26,8 +26,9 @@ This project focuses on audio post-processing using the PedalBoard library and c
 - **src/fx.py**: Defines various audio effects chains for processing instrumental and vocal audio.
 - **src/utils.py**: Utility functions for opening and saving audio files.
 - **src/dsp_scripts/buss_compressor.py**: Contains the [`buss_compressor`](src/dsp_scripts/buss_compressor.py) function that applies dynamic range compression using Numba for JIT acceleration.
-- **src/dsp_scripts/distortion_exciter.py**: Contains the [`distortion_exciter`](src/dsp_scripts/distortion_exciter.py) function for applying distortion and excitation effects.
-- **src/dsp_scripts/stereo_upmix.py**: Implements the [`MonoToStereoUpmixer`](src/dsp_scripts/stereo_upmix.py) class for upmixing mono signals to stereo.
+- **src/dsp_scripts/distortion_exciter.py**: Contains the [`distortion_exciter`](src/dsp_scripts/distortion_exciter.py) function for applying distortion and excitation effects, JIT for acceleration.
+- **src/dsp_scripts/saturator.py**: Contains the [`dynamic_saturator`](src/dsp_scripts/saturator.py) function for applying dynamic saturation effects.
+- **src/dsp_scripts/stereo_upmix.py**: Implements the [`MonoToStereoUpmixer`](src/dsp_scripts/stereo_upmix.py) class for upmixing mono signals to stereo. JIT for acceleration.
 - **src/dsp_scripts/sum_audio.py**: Provides the [`sum_audio_arrays`](src/dsp_scripts/sum_audio.py) function to sum (mix) two audio signals.
 
 ### Docker
