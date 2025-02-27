@@ -81,7 +81,13 @@ class MonoToStereoUpmixer:
         Returns:
             np.ndarray: A 2D array of shape (n_samples, 2) with stereo output.
         """
-        # Ensure the input is a 1D array.
-        if mono_buffer.ndim > 1:
-            mono_buffer = mono_buffer.flatten()
+        print("stereo_upmix.py : Input buffer shape:", mono_buffer.shape)
+        
+        if mono_buffer.ndim == 2:
+        # If the first dimension is 1, assume it's in the wrong orientation.
+            if mono_buffer.shape[0] == 1 and mono_buffer.shape[1] > 1:
+                mono_buffer = mono_buffer.T.flatten() # numba processes expect a 1D array
+
+        
+        print("stereo_upmix.py : Mono buffer shape:", mono_buffer.shape)
         return process_buffer_stereo(mono_buffer, self.bs, self.delay_buffer)

@@ -34,14 +34,14 @@ def process_instrumental(audio, samplerate):
                         gain_db = -4.3, 
                         q = 0.78),
         #Distortion(drive_db=3),
-        Gain(gain_db=3.0)
+        Gain(gain_db=-10)
         #Limiter(threshold_db=-0.1)
     ])
 
     dist_fxed = distort_exciter(audio, samplerate, drive=16, distortion=33, highpass=4800, wet_mix=-6, dry_mix=0)
     chain_fxed = fxchain(dist_fxed, samplerate)
-    stereod = stereo_upmix(chain_fxed, samplerate, 70)
-    effected = saturate(stereod, mix_pct=99)
+    stereod = stereo_upmix(chain_fxed, samplerate, 100)
+    effected = saturate(stereod, mix_pct=80)
     return effected
 
 def process_vocals(audio, samplerate):
@@ -67,12 +67,12 @@ def process_vocals(audio, samplerate):
               mix=0.1),
         Reverb(room_size=0.5,
                damping=0.5,
-               wet_level=0.2,
+               wet_level=0.15,
                dry_level=1.0,
                width=1.0,
                freeze_mode=0.0),
         #Distortion(drive_db=.2),
-        #Gain(gain_db=1.0)
+        Gain(gain_db=-18.0)
         #Limiter(threshold_db=-0.1)
     ])
 
@@ -95,19 +95,24 @@ def saturate(audio, mix_pct=100):
     return dynamic_saturator(audio, mix_pct)
 
 def process_buss(audio, samplerate):
-    audio = buss_compressor(samplerate, audio, threshold_db=-3.8, ratio=8, attack_us=20, release_ms=132, mix_percent=100)
+    prefx = Pedalboard([Gain(gain_db=-1.5)])
+    audio = prefx(audio, samplerate)
+
+    audio = buss_compressor(samplerate, audio, threshold_db=-4.8, ratio=4, attack_us=2000, release_ms=132, mix_percent=100)
+    print("Buss compressor applied: ", audio.shape)
 
     fxchain = Pedalboard([
-        Gain(gain_db=-1.5),
         Reverb(room_size=0.5,
                damping=0.5,
-               wet_level=0.1,
+               wet_level=0.03,
                dry_level=1.0,
                width=1.0,
                freeze_mode=0.0),
-        Limiter(threshold_db=-0.1)
+        Gain(gain_db=4.5)
+        #Limiter(threshold_db=-0.1)
     ])
 
     effected = fxchain(audio, samplerate)
+    print("Buss pedalboard applied: ", audio.shape)
     return effected
 
